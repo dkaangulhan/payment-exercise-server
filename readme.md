@@ -1,4 +1,6 @@
-# Excersie project for implementing iyzico payment systems.
+# Intro
+
+This project is being developed for exploring payment systems using iyzico's APIs. This is the server implementation of full stack project "full-stack-payment-exercise" [ProjectLink](https://github.com/dkaangulhan/full-stack-payment-exercise).
 
 ## Initialize
 
