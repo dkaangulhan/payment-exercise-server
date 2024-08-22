@@ -3,7 +3,7 @@ const password_util = require("../common/password_util");
 const UserSchema = require("../models/db/user");
 
 exports.register = async (req, res) => {
-  const { name, surname, gsmNumber, email, password, address } = req.body;
+  const { name, surname, gsmNumber, email, password } = req.body;
 
   const hashedPassword = await password_util.hashPassword(password);
 
@@ -15,7 +15,7 @@ exports.register = async (req, res) => {
     password: hashedPassword,
     registrationDate: new Date(),
     lastLoginDate: new Date(),
-    addressList: [address],
+    addressList: [],
   });
 
   try {
