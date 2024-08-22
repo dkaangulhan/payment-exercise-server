@@ -14,7 +14,7 @@ exports.getProfile = async (req, res) => {
 
 exports.updateProfile = async (req, res) => {
   const email = req.email;
-  const { name, surname, gsmNumber, address, identityNumber } = req.body;
+  const { name, surname, addressList, identityNumber } = req.body;
 
   const user = await UserSchema.findOne({ email: email });
 
@@ -22,13 +22,11 @@ exports.updateProfile = async (req, res) => {
 
   user.name = name || user.name;
   user.surname = surname || user.surname;
-  user.gsmNumber = gsmNumber || user.gsmNumber;
   user.identityNumber = identityNumber || user.identityNumber;
-  if (address) {
-    user.addressList.push(address);
-  }
+  user.addressList = addressList || user.addressList;
 
-  await user.save();
+  const updatedUser = await user.save();
+  updatedUser.password = undefined;
 
-  res.send("Profile updated");
+  res.send(updatedUser);
 };
