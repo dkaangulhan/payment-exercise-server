@@ -17,12 +17,14 @@ const authRoutes = require("./routes/auth_routes");
 const productRoutes = require("./routes/product_routes");
 const threedsRoutes = require("./routes/payment/threeds_routes");
 const nonThreedsRoutes = require("./routes/payment/non_threeds_routes");
+const webhookRoutes = require("./routes/payment/webhook_routes");
 const cartRoutes = require("./routes/cart_routes");
 const profileRoutes = require("./routes/profile_routes");
 app.use("/auth", authRoutes);
 app.use("/product", productRoutes);
 app.use("/payment/threeds", threedsRoutes);
 app.use("/payment/nonThreeds", nonThreedsRoutes);
+app.use("/payment/webhook", webhookRoutes);
 app.use("/cart", cartRoutes);
 app.use("/profile", profileRoutes);
 
