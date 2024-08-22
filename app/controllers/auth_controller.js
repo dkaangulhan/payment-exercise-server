@@ -1,14 +1,18 @@
 const JwtUtil = require("../common/jwt_util");
+const password_util = require("../common/password_util");
 const UserSchema = require("../models/db/user");
 
 exports.register = async (req, res) => {
   const { name, surname, gsmNumber, email, password, address } = req.body;
+
+  const hashedPassword = await password_util.hashPassword(password);
+
   const user = new UserSchema({
     name,
     surname,
     gsmNumber,
     email,
-    password,
+    password: hashedPassword,
     registrationDate: new Date(),
     lastLoginDate: new Date(),
     addressList: [address],
@@ -30,10 +34,18 @@ exports.login = async (req, res) => {
   try {
     const user = await UserSchema.findOne({
       email,
-      password,
     });
 
     if (!user) {
+      return res.status(400).send("Email or password is wrong");
+    }
+
+    const validPass = await password_util.comparePassword(
+      password,
+      user.password
+    );
+
+    if (!validPass) {
       return res.status(400).send("Email or password is wrong");
     }
 

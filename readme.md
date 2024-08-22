@@ -15,5 +15,3 @@ This project is being developed for exploring payment systems using iyzico's API
   - JWT_EXPIRY: Duration of JWT tokens.
 
 ## Notes
-
-- Passwords are not saved encrypted. If it is required to implement in a real world example, passwords should never be stored explicitly.
