@@ -6,6 +6,8 @@ const BasketItemsFromCartUseCase = require("../../use_cases/iyzico/basket_items_
 const DateFormatters = require("../../common/date_formatters");
 const CreatePurchaseUseCase = require("../../use_cases/iyzico/create_purchase_use_case");
 const UpdatePurchaseUseCase = require("../../use_cases/iyzico/update_purchase_use_case");
+const GetUserByConversationIdUseCase = require("../../use_cases/user/get_user_by_conversation_id_use_case");
+const ClearCartByUserIdUseCase = require("../../use_cases/profile/clear_cart_by_user_id_use_case");
 
 exports.initialize = async (req, res) => {
   const email = req.email;
@@ -128,6 +130,12 @@ exports.callback = async (req, res) => {
 
         new UpdatePurchaseUseCase()
           .execute({ conversationId: conversationId, status: "SUCCESS" })
+          .then(() => {
+            return new GetUserByConversationIdUseCase().execute(conversationId);
+          })
+          .then((user) => {
+            return new ClearCartByUserIdUseCase().execute(user._id);
+          })
           .then(() => {
             return res.send("Payment successful!");
           })

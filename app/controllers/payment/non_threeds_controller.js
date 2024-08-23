@@ -9,6 +9,7 @@ const ProductSchema = require("../../models/db/product");
 const Iyzipay = require("iyzipay");
 const iyzipay = require("../../common/iyzipay");
 const CreatePurchaseUseCase = require("../../use_cases/iyzico/create_purchase_use_case");
+const ClearCartByUserIdUseCase = require("../../use_cases/profile/clear_cart_by_user_id_use_case");
 
 exports.create = async (req, res) => {
   const email = req.email;
@@ -94,6 +95,9 @@ exports.create = async (req, res) => {
         basketItems: basketItems,
         paidPrice: paidPrice,
         status: "SUCCESS",
+      })
+      .then(() => {
+        return new ClearCartByUserIdUseCase().execute(user._id.toString());
       })
       .then(() => {
         res.send("Payment successful");
